@@ -1,6 +1,7 @@
 'use strict'
 
 var videoplay = document.querySelector('video#player');
+var audioplay = document.querySelector('audio#audioplayer');
 var audioSource = document.querySelector('select#audioSource')
 var audioOutput = document.querySelector('select#audioOutput')
 var videoSource = document.querySelector('select#videoSource')
@@ -30,7 +31,8 @@ function gotDevices(deviceInfos)
 //获取音视频流
 function gotMediaStream(stream)
 {
-    videoplay.srcObject = stream;
+    // videoplay.srcObject = stream;
+    audioplay.srcObject =  stream;
     return navigator.mediaDevices.enumerateDevices();
 }
 function handleError(err)
@@ -47,33 +49,35 @@ function start()
     }else{
         var deviceId = videoSource.value
         var constraints = {
-            video : {
-                width:320,
-                height:240,
-                frameRate:30,
-                // width:{
-                //     min:640,
-                //     max:1080
-                // },
-                // height:{
-                //     min:480,
-                //     max:1920
-                // },
-                // frameRate:{
-                //     min:15,
-                //     max:60
-                // },
-                // facingMode:'enviroment', // user // 摄像头前后置 默认前置
+            // video : {
+            //     width:320,
+            //     height:240,
+            //     frameRate:30,
+            //     // width:{
+            //     //     min:640,
+            //     //     max:1080
+            //     // },
+            //     // height:{
+            //     //     min:480,
+            //     //     max:1920
+            //     // },
+            //     // frameRate:{
+            //     //     min:15,
+            //     //     max:60
+            //     // },
+            //     // facingMode:'enviroment', // user // 摄像头前后置 默认前置
 
-                //设置deviceId
-                deviceId: deviceId ? deviceId : undefined
+            //     //设置deviceId
+            //     deviceId: deviceId ? deviceId : undefined
     
-            },
-            audio : {
-                noiseSuppression:true,//降噪
-                echoCancellation:true,//回音消除
-                autoGainControl:true  //自动增益
-            }
+            // },
+            video : false,
+            audio : true
+            // audio : {
+            //     noiseSuppression:true,//降噪
+            //     echoCancellation:true,//回音消除
+            //     autoGainControl:true  //自动增益
+            // }
         }
         //获取音视频信息
         navigator.mediaDevices.getUserMedia(constraints)
