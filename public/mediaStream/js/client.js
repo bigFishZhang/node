@@ -8,6 +8,9 @@ var videoSource = document.querySelector('select#videoSource')
 var filtersSelect = document.querySelector('select#filter')
 var snapshotButton = document.querySelector('button#snapshot')
 var pictureCanvas = document.querySelector('canvas#picture')
+
+var constraints = document.querySelector('div#constraints')
+
 pictureCanvas.width = 320
 pictureCanvas.height= 240
 // 获取设备
@@ -31,8 +34,13 @@ function gotDevices(deviceInfos)
 //获取音视频流
 function gotMediaStream(stream)
 {
-    // videoplay.srcObject = stream;
-    audioplay.srcObject =  stream;
+    videoplay.srcObject = stream;
+    var videoTrack = stream.getVideoTracks()[0];
+    var videoConstraints =  videoTrack.getSettings();
+    
+    constraints.textContent =  JSON.stringify(videoConstraints,null,2);
+
+    // audioplay.srcObject =  stream;
     return navigator.mediaDevices.enumerateDevices();
 }
 function handleError(err)
@@ -49,35 +57,35 @@ function start()
     }else{
         var deviceId = videoSource.value
         var constraints = {
-            // video : {
-            //     width:320,
-            //     height:240,
-            //     frameRate:30,
-            //     // width:{
-            //     //     min:640,
-            //     //     max:1080
-            //     // },
-            //     // height:{
-            //     //     min:480,
-            //     //     max:1920
-            //     // },
-            //     // frameRate:{
-            //     //     min:15,
-            //     //     max:60
-            //     // },
-            //     // facingMode:'enviroment', // user // 摄像头前后置 默认前置
+            video : {
+                width:320,
+                height:240,
+                frameRate:30,
+                // width:{
+                //     min:640,
+                //     max:1080
+                // },
+                // height:{
+                //     min:480,
+                //     max:1920
+                // },
+                // frameRate:{
+                //     min:15,
+                //     max:60
+                // },
+                // facingMode:'enviroment', // user // 摄像头前后置 默认前置
 
-            //     //设置deviceId
-            //     deviceId: deviceId ? deviceId : undefined
+                //设置deviceId
+                deviceId: deviceId ? deviceId : undefined
     
-            // },
-            video : false,
-            audio : true
-            // audio : {
-            //     noiseSuppression:true,//降噪
-            //     echoCancellation:true,//回音消除
-            //     autoGainControl:true  //自动增益
-            // }
+            },
+            // video : true,
+            // audio : true
+            audio : {
+                noiseSuppression:true,//降噪
+                echoCancellation:true,//回音消除
+                autoGainControl:true  //自动增益
+            }
         }
         //获取音视频信息
         navigator.mediaDevices.getUserMedia(constraints)
