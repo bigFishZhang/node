@@ -5,7 +5,10 @@ var audioSource = document.querySelector('select#audioSource')
 var audioOutput = document.querySelector('select#audioOutput')
 var videoSource = document.querySelector('select#videoSource')
 var filtersSelect = document.querySelector('select#filter')
-
+var snapshotButton = document.querySelector('button#snapshot')
+var pictureCanvas = document.querySelector('canvas#picture')
+pictureCanvas.width = 320
+pictureCanvas.height= 240
 // 获取设备
 function gotDevices(deviceInfos)
 {
@@ -45,8 +48,8 @@ function start()
         var deviceId = videoSource.value
         var constraints = {
             video : {
-                width:640,
-                height:480,
+                width:320,
+                height:240,
                 frameRate:30,
                 // width:{
                 //     min:640,
@@ -88,5 +91,11 @@ videoSource.onchange  = start;
 filtersSelect.onchange = function()
 {
     videoplay.className = filtersSelect.value
+
+}
+snapshotButton.onclick = function() 
+{
+    pictureCanvas.className = filtersSelect.value
+    pictureCanvas.getContext('2d').drawImage(videoplay,0,0,pictureCanvas.width,pictureCanvas.height)
 
 }
