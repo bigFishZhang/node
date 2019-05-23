@@ -61,8 +61,8 @@ function handleError(err) {
 }
 
 function start() {
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    //if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
         console.log('getUserMedia is not supported! \n');
         return
     } else {
@@ -98,8 +98,9 @@ function start() {
                 autoGainControl: true //自动增益
             }
         }
-        //获取音视频信息
-        navigator.mediaDevices.getUserMedia(constraints)
+        //获取音视频信息 //
+        // navigator.mediaDevices.getUserMedia(constraints)
+        navigator.mediaDevices.getDisplayMedia(constraints)
             .then(gotMediaStream)
             .then(gotDevices)
             .catch(handleError);
