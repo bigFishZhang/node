@@ -182,3 +182,15 @@ playBtn.onclick = function () {
     recVideo.controls = true;
     recVideo.play();
 }
+
+downloadBtn.onclick = function () {
+    var blob = new Blob(buffer, {
+        type: 'video/webm'
+    });
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.style.display = 'none';
+    a.download = 'text.webm';
+    a.click();
+}
