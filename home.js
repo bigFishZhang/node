@@ -11,6 +11,7 @@ var serveIndex = require('serve-index');
 var socketIo = require('socket.io');
 // log
 var log4js = require('log4js');
+
 log4js.configure({
   appenders: {
     file: {
@@ -45,7 +46,7 @@ var sockio = socketIo.listen(http_server);
 sockio.sockets.on('connection', (socket) => {
   //接收消息
   socket.on('message', (room, data) => {
-    socket.to(room).emit('message', room, data); //给房间所有人发消息（除自己）
+    socket.to(room).emit('message', room,socket.id, data); //给房间所有人发消息（除自己）
   });
   //此处应该加锁
   socket.on('join', (room) => {
@@ -69,7 +70,7 @@ sockio.sockets.on('connection', (socket) => {
     // io.in(room).emit('joined', room, socket.id);//房间内所有人
     // socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点	
   });
-  socket.on('leaver', (room) => {
+  socket.on('leave', (room) => {
     var myRoom = io.sockets.adapter.rooms[room];
     var users = Object.keys(myRoom.sockets).length;
     logger.log('the number of user in room is :' + (users - 1));
@@ -96,7 +97,7 @@ var io = socketIo.listen(https_server);
 io.sockets.on('connection', (socket) => {
   //接收消息
   socket.on('message', (room, data) => {
-    socket.to(room).emit('message', room, data); //给房间所有人发消息（除自己）
+    socket.to(room).emit('message', room,socket.id, data); //给房间所有人发消息（除自己）
   });
   //此处应该加锁
   socket.on('join', (room) => {

@@ -49,8 +49,8 @@ connectBtn.onclick = function () {
 
 sendBtn.onclick = function () {
   var msg = inputText.value;
-  data = userName.value + ':' + msg;
-  socket.emit('message', room, data);
+  msg = userName.value + ':' + msg;
+  socket.emit('message', room, msg);
   inputText.value = '';
 }
 
@@ -62,8 +62,8 @@ leaveBtn.onclick = function () {
 inputText.onkeypress = function (event) {
   if (event.keyCode == 13) { //回车发送消息
     var msg = inputText.value;
-    data = userName.value + ':' + msg;
-    socket.emit('message', room, data);
+    msg = userName.value + ':' + msg;
+    socket.emit('message', room, msg);
     inputText.value = '';
     event.preventDefault(); //阻止Web默认行为
   }
