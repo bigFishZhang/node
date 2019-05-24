@@ -36,7 +36,7 @@ function gotDevices(deviceInfos) {
         } else if (deviceInfo.kind === "audiooutput") {
             audioOutput.appendChild(option)
         } else if (deviceInfo.kind === "videoinput") {
-            0
+            videoSource.appendChild(option)
         }
     })
 }
