@@ -71,7 +71,9 @@ function handleAnswerError(err) {
 
 //create Offer事件后把信息设置到本地LocalDescription 
 function getOffer(desc) {
+
   pc1.setLocalDescription(desc);
+
   //显示sdp 信息
   offerSdpTextarea.value = desc.sdp;
 
@@ -97,14 +99,12 @@ function call() {
 
   // pc1 pc2 监听到 onicecandidate 事件添加候选者信息
   pc1.onicecandidate = function (e) {
+    //添加到连接通路 的候选者列表中
     pc2.addIceCandidate(e.candidate);
   }
   pc2.onicecandidate = function (e) {
     pc1.addIceCandidate(e.candidate);
   }
-
-  // pc2 onTrack 信息监听处理
-  pc2.ontrack = getRemoteStream;
 
   //pc1 添加本地流的 track
   localStream.getTracks().forEach((track) => {
@@ -117,6 +117,10 @@ function call() {
     offerToRecieveVideo: 1
   }
   pc1.createOffer(offerOptions).then(getOffer).catch(handleOfferError);
+
+
+  // pc2 onTrack 信息监听处理
+  pc2.ontrack = getRemoteStream;
 
   callBtn.disabled = true;
   hangupBtn.disabled = false;

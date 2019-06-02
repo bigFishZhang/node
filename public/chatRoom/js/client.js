@@ -12,11 +12,12 @@ var sendBtn = document.querySelector('button#send');
 var socket;
 var room;
 
-//事件键盘
+//点击连接按钮
 connectBtn.onclick = function () {
   //connect
-  socket = io.connect(); // io 从哪来？
-  //recieve message
+  socket = io.connect();
+
+  //Listen  event
   socket.on('joined', (room, id) => {
     connectBtn.disabled = true;
     leaveBtn.disabled = false;
@@ -31,10 +32,6 @@ connectBtn.onclick = function () {
     sendBtn.disabled = true;
     socket.disconnect();
   });
-  socket.on('message', (room, id, data) => {
-    outputText.scrollTop = outputText.scrollHeight; //显示最后的内容
-    outputText.value = outputText.value + data + '\r';
-  });
 
   socket.on('disconnect', (socket) => {
     connectBtn.disabled = false;
@@ -42,11 +39,19 @@ connectBtn.onclick = function () {
     inputText.disabled = true;
     sendBtn.disabled = true;
   });
+
+  //recieve message
+  socket.on('message', (room, id, data) => {
+    outputText.scrollTop = outputText.scrollHeight; //显示最后的内容
+    outputText.value = outputText.value + data + '\r';
+  });
+
   //send message
   room = inputRoom.value;
   socket.emit('join', room);
-}
 
+}
+// 发送消息
 sendBtn.onclick = function () {
   var msg = inputText.value;
   msg = userName.value + ':' + msg;
@@ -54,11 +59,13 @@ sendBtn.onclick = function () {
   inputText.value = '';
 }
 
+// 离开
 leaveBtn.onclick = function () {
   room = inputRoom.value;
   socket.emit('leave', room);
 }
 
+// 发送消息输入框回车监听
 inputText.onkeypress = function (event) {
   if (event.keyCode == 13) { //回车发送消息
     var msg = inputText.value;
