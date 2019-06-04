@@ -3,15 +3,12 @@
 var http = require('http');
 var https = require('https');
 var fs = require('fs')
+var socketIo = require('socket.io');
+var log4js = require('log4js');
 
 var express = require('express');
 var serveIndex = require('serve-index');
 
-//0 引入socket.io
-var socketIo = require('socket.io');
-
-// log
-var log4js = require('log4js');
 
 var MAX_USER_COUNT = 4;
 

@@ -29,8 +29,6 @@ function getPc1Offer(desc) {
 
 }
 
-
-
 function getMediaStream(stream) {
   stream.getTracks().forEach((track) => {
     pc1.addTrack(track, stream);
