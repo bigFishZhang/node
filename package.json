@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.0",
-    "log4js": "^4.3.0",
+    "log4js": "^6.4.0",
     "serve-index": "^1.9.1",
     "socket.io": "^2.2.0"
   }
